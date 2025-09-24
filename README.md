@@ -1,81 +1,133 @@
 # AI Research Agent
 
-This project is a take-home assignment to build an AI agent that automates the research process. It takes a user query, finds relevant online sources, extracts their content, generates a structured summary report using an LLM, and saves the results in a local database for future reference.
+AI Research Agent is a tool that helps users generate structured research reports. It searches the web, extracts content from webpages and PDFs, and creates reports with summaries, key points, and source links. All reports are stored in a local SQLite database for future access.
 
-## Architecture
+## Features
 
-The agent is built with a simple, modular architecture:
+* Searches the web using Tavily API
+* Extracts text from webpages and PDFs
+* Generates structured reports using Ollama's LLaMA model
+* Reports include summary, key points, and sources
+* Saves reports in a local SQLite database
+* Provides a Streamlit interface for easy use
 
-* **`app.py`**: The web interface, built with **Streamlit**. It handles user input and displays current and past reports.
-* **`agent.py`**: The core logic, orchestrated by **LangChain**. It uses the Tavily API for web searches, `trafilatura` and `pypdf` for content extraction, and a local **Ollama Llama 3** model for report generation.
-* **`db.py`**: A simple database handler for the **SQLite** database, which stores all generated reports.
+## Project Structure
 
+```
+AI-Research-Agent/
+│── agent.py          # Core logic for search, extraction, and report generation
+│── app.py            # Streamlit frontend
+│── db.py             # Database functions (init, save, fetch reports)
+│── requirements.txt  # Dependencies
+│── .env              # Environment variables (API keys)
+│── research_reports.db (created automatically)
+```
 
+## Setup Instructions
 
-## How to Run the Project
+1. Clone the repository:
 
-Follow these steps to get the application running locally:
+```bash
+git clone <repo-url>
+cd AI-Research-Agent
+```
 
-1.  **Clone the Repository**
-    ```bash
-    git clone <your-repo-url>
-    cd research_agent
-    ```
+2. Create and activate a virtual environment:
 
-2.  **Install Dependencies**
-    Make sure you have Python 3.8+ installed.
-    ```bash
-    pip install -r requirements.txt
-    ```
+```bash
+python -m venv venv
+source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate      # Windows
+```
 
-3.  **Set Up Environment Variables**
-    Create a `.env` file in the root directory and add your Tavily API key:
-    ```
-    TAVILY_API_KEY="your_tavily_api_key_here"
-    ```
+3. Install dependencies:
 
-4.  **Run Ollama**
-    Ensure the Ollama desktop application is running and you have downloaded the Llama 3 model:
-    ```bash
-    ollama run llama3
-    ```
+```bash
+pip install -r requirements.txt
+```
 
-5.  **Start the Application**
-    Run the Streamlit app from your terminal:
-    ```bash
-    streamlit run app.py
-    ```
-    The application will open in your web browser.
+4. Add environment variables in a `.env` file:
 
-## Example Results
+```env
+TAVILY_API_KEY=your_api_key_here
+```
+
+Make sure Ollama is installed and running locally with the `llama3.1` model.
+
+5. Run the Streamlit app:
+
+```bash
+streamlit run app.py
+```
+
+## Example Usage
+
+Enter a query in the app input box. The agent will search online, extract content, and generate a structured report.
+
+### Example 1
 
 **Query:**
-`Latest research on AI in education`
 
-**Sample Report:**
+```
+How to learn Generative AI
+```
 
-> ### Summary of Findings
->
-> Recent research on AI in education focuses on its potential to create personalized learning paths, automate administrative tasks for teachers, and provide intelligent tutoring systems. Key applications include adaptive learning platforms that adjust difficulty based on student performance and AI tools that offer instant feedback on assignments. However, challenges related to data privacy, algorithmic bias, and the need for proper teacher training remain significant concerns.
->
-> ### Key Points
->
-> * **Personalized Learning:** AI algorithms can analyze student data to customize educational content and pacing.
-> * **Administrative Automation:** AI can handle tasks like grading, scheduling, and student monitoring, freeing up teacher time.
-> * **Intelligent Tutoring:** AI-powered systems offer one-on-one support and practice for students at any time.
-> * **Ethical Concerns:** The use of AI raises important issues regarding student data privacy and the potential for bias in AI models.
->
-> ### Sources
->
-> * https://example-source-1.com/ai-in-education
-> * https://example-source-2.org/research-paper
-> * https://example-source-3.edu/future-of-learning
+**Generated Report:**
 
-## Use of AI Help
+```
+Summary of Findings
+The report provides an overview of resources available to learn Generative AI from Coursera, DeepLearning.AI, and Google Cloud. It shows that there are introductory to advanced courses and highlights the importance of GenAI skills for career growth.
 
-AI assistance (ChatGPT-4/Gemini) was used for:
-* Generating boilerplate code for the Streamlit interface and SQLite functions.
-* Refining the LLM prompt for optimal report structure.
-* Debugging minor integration issues between libraries.
+Key Points or Takeaways
+- Coursera offers courses such as "Generative AI: Introduction and Applications".
+- DeepLearning.AI provides "Generative AI for Everyone".
+- Google Cloud offers training programs and certifications.
+- GenAI skills are in high demand and valuable for professional success.
 
-The core agent logic, tool integration, and error handling were designed and implemented manually.
+Source URLs
+https://www.coursera.org/courses?query=generative%20ai
+https://www.deeplearning.ai/courses/generative-ai-for-everyone/
+https://ai.google/learn-ai-skills
+```
+
+### Example 2
+
+**Query:**
+
+```
+Impact of Mediterranean diet on heart health
+```
+
+**Generated Report:**
+
+```
+Summary of Findings
+The report shows that the Mediterranean diet is strongly linked to improved heart health. It emphasizes the role of fruits, vegetables, whole grains, fish, and olive oil in reducing cardiovascular risk.
+
+Key Points or Takeaways
+- Studies indicate lower risk of heart disease with a Mediterranean diet.
+- High intake of olive oil and nuts contributes to improved cholesterol levels.
+- Diet reduces inflammation and supports healthy blood pressure.
+- Considered one of the most heart-friendly dietary patterns worldwide.
+
+Source URLs
+https://www.health.harvard.edu/blog/mediterranean-diet-2019021516012
+https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/fats/mediterranean-diet
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6566796/
+```
+
+## Requirements
+
+Create a `requirements.txt` file with the following dependencies:
+
+```txt
+streamlit
+requests
+beautifulsoup4
+PyPDF2
+sqlite3
+python-dotenv
+tavily-python
+```
+
+
