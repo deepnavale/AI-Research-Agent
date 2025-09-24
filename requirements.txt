@@ -1,0 +1,14 @@
+# requirements.txt
+streamlit
+python-dotenv
+langchain
+langchain-community
+langchain-core
+# New packages for updated tools
+langchain-ollama
+langchain-tavily
+ollama
+tavily-python
+trafilatura
+pypdf
+requests
